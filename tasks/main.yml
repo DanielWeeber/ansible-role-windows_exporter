@@ -1,0 +1,36 @@
+---
+- name: Check current windows_exporter version.
+  win_command: "{{ windows_exporter_bin_path }} --version"
+  failed_when: false
+  changed_when: false
+  register: windows_exporter_version_check
+
+- name: install Windows exporter
+  win_package:
+    path: "{{ windows_exporter_download_url }}"
+    product_id: "{D6F05276-350B-4E3B-A608-19D8B00A8396}"
+    state: present
+    #arguments: /install /passive /norestart
+  when: >
+    windows_exporter_version_check.stderr is not defined
+    or windows_exporter_version not in windows_exporter_version_check.stderr
+  register: windows_exporter_download_check
+
+- name: Firewall rule to allow Prometheus to scrape on port 9182 TCP
+  win_firewall_rule:
+    name: prometheus_exporter
+    localport: 9182
+    action: allow
+    direction: in
+    protocol: tcp
+    remoteip: 192.168.22.126
+    state: present
+    enabled: yes
+  notify: restart windows_exporter
+
+- name: Verify windows_exporter is responding to requests.
+  win_uri:
+    url: http://localhost:9182/
+    return_content: true
+  register: metrics_output
+  failed_when: "'Metrics' not in metrics_output.content"

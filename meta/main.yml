@@ -1,0 +1,48 @@
+---
+dependencies: []
+galaxy_info:
+  author: Daniel Weeber
+  role_name: windows_exporter
+  description: Prometheus' windows_exporter for Windows hosts.
+  license: license (MIT)
+  min_ansible_version: 2.7
+  platforms:
+    - name: EL
+      versions:
+        - all
+    - name: GenericUNIX
+      versions:
+        - all
+    - name: Fedora
+      versions:
+        - all
+    - name: opensuse
+      versions:
+        - all
+    - name: GenericBSD
+      versions:
+        - all
+    - name: FreeBSD
+      versions:
+        - all
+    - name: Ubuntu
+      versions:
+        - all
+    - name: SLES
+      versions:
+        - all
+    - name: GenericLinux
+      versions:
+        - all
+    - name: Debian
+      versions:
+        - all
+  galaxy_tags:
+    - system
+    - docker
+    - containers
+    - monitoring
+    - prometheus
+    - windows
+    - exporter
+    - metrics

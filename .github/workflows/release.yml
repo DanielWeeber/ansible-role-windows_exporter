@@ -1,0 +1,17 @@
+name: GitHub Action
+
+on:
+  - push
+
+jobs:
+  build:
+    name: Release
+    runs-on: ubuntu-latest
+    steps:
+      - name: checkout
+        uses: actions/checkout@v2
+      - name: galaxy
+        uses: robertdebock/galaxy-action@1.1.1
+        with:
+          galaxy_api_key: ${{ secrets.galaxy_api_key }}
+          path: ansible-role-windows_exporter
