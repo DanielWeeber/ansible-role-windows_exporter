@@ -14,7 +14,7 @@ Available variables are listed below, along with default values (see `defaults/m
 
     windows_exporter_version: '0.18.1'
 
-The version of Windows exporter to install. Available releases can be found on the [tags](https://github.com/prometheus-community/windows_exporter/tags) listing in the Node exporter repository. Drop the `v` off the tag.
+The version of Windows exporter to install. Available releases can be found on the [tags](https://github.com/prometheus-community/windows_exporter/tags) listing in the Windows exporter repository. Drop the `v` off the tag.
 
 If you change the version, the `windows_exporter` binary will be replaced with the updated version, and the service will be restarted.
 
@@ -30,7 +30,7 @@ The path where the `windows_exporter` binary will be downloaded and installed fr
 
 Any additional options to pass to `windows_exporter` when it starts, e.g. `--no-collector.wifi` if you want to ignore any WiFi data.
 
-    windows_exporter_state: started
+    windows_exporter_state: restarted
     windows_exporter_enabled: true
 
 Controls for the `windows_exporter` service.

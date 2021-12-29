@@ -23,7 +23,7 @@
     action: allow
     direction: in
     protocol: tcp
-    remoteip: 192.168.22.126
+    remoteip: "{{ hostvars[inventory_hostname].ansible_host }}"
     state: present
     enabled: yes
   notify: restart windows_exporter
