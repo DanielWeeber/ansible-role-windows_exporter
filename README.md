@@ -29,6 +29,7 @@ The path where the `windows_exporter` binary will be downloaded and installed fr
     windows_exporter_options: ''
 
 Any additional options to pass to `windows_exporter` when it starts, e.g. `--no-collector.wifi` if you want to ignore any WiFi data.
+Need to use MSI Parametes as stated in https://github.com/prometheus-community/windows_exporter#installation
 
     windows_exporter_state: restarted
     windows_exporter_enabled: true
