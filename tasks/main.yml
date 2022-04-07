@@ -10,7 +10,7 @@
     path: "{{ windows_exporter_download_url }}"
     product_id: "{D6F05276-350B-4E3B-A608-19D8B00A8396}"
     state: present
-    #arguments: /install /passive /norestart
+    arguments: "{{ windows_exporter_options }}"
   when: >
     windows_exporter_version_check.stderr is not defined
     or windows_exporter_version not in windows_exporter_version_check.stderr
