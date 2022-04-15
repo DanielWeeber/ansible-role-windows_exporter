@@ -24,6 +24,7 @@ If you change the version, the `windows_exporter` binary will be replaced with t
 
     windows_exporter_bin_path: 'C:\Windows\temp\windows_exporter-{{ windows_exporter_version }}-{{ windows_exporter_arch }}.msi'
 
+
 The path where the `windows_exporter` binary will be downloaded and installed from.
 
     windows_exporter_options: ''
@@ -31,10 +32,10 @@ The path where the `windows_exporter` binary will be downloaded and installed fr
 Any additional options to pass to `windows_exporter` when it starts, e.g. `--no-collector.wifi` if you want to ignore any WiFi data.
 Need to use MSI Parametes as stated in https://github.com/prometheus-community/windows_exporter#installation
 
-    windows_exporter_state: restarted
-    windows_exporter_enabled: true
+    windows_exporter_state: started
+    windows_exporter_start_mode: delayed
 
-Controls for the `windows_exporter` service.
+Controls for the `windows_exporter` service. `windows_exporter_start_mode` controls the [start_mode](https://docs.ansible.com/ansible/latest/collections/ansible/windows/win_service_module.html#parameter-start_mode) of the service. `windows_exporter_state` controls the [state](https://docs.ansible.com/ansible/latest/collections/ansible/windows/win_service_module.html#parameter-state) of the service on the host.
 
 ## Dependencies
 
