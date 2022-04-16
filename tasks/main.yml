@@ -1,4 +1,9 @@
 ---
+- name: Check that the service variable values are sane
+  assert:
+    that:
+      - windows_exporter_state != 'started' and windows_exporter_start_mode != 'disabled'
+    fail_msg: "You cannot manage the service with the windows_exporter_state and windows_exporter_start_mode settings"
 - name: Check current windows_exporter version.
   win_command: "{{ windows_exporter_bin_path }} --version"
   failed_when: false
@@ -27,10 +32,20 @@
     state: present
     enabled: yes
   notify: restart windows_exporter
-
+- name: windows_exporter service settings
+  ansible.windows.win_service:
+    name: windows_exporter
+    start_mode: "{{ windows_exporter_start_mode }}"
+    state: "{{ windows_exporter_state }}"
 - name: Verify windows_exporter is responding to requests.
   win_uri:
     url: http://localhost:9182/
     return_content: true
   register: metrics_output
   failed_when: "'Metrics' not in metrics_output.content"
+  when: >
+    windows_exporter_start_mode <> 'disabled' or 
+    windows_exporter_start_mode <> 'manual' and (
+    windows_exporter_state == 'started' OR WINDOWS_EXPORTER_STATE == 'restarted'
+    )
+     
