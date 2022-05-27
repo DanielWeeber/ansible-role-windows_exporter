@@ -7,4 +7,4 @@ windows_exporter_options: ''
 windows_exporter_bin_path: '"C:\Program Files\windows_exporter\windows_exporter.exe"'
 windows_exporter_state: started
 windows_exporter_start_mode: delayed
-windows_exporter_allow_from: ''
+windows_exporter_allow_from: 'any'
