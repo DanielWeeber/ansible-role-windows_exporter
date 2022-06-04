@@ -3,6 +3,7 @@ dependencies: []
 galaxy_info:
   author: Daniel Weeber
   role_name: windows_exporter
+  namespace: danielweeber
   description: Prometheus' windows_exporter for Windows hosts.
   license: license (MIT)
   min_ansible_version: 2.7
