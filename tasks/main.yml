@@ -38,6 +38,11 @@
   register: windows_exporter_install_check
   notify: restart windows_exporter
 
+- name: find firewall status
+  win_shell: Get-NetFirewallProfile | Where-Object {$_.Enabled -eq $true} | fl Enabled
+  changed_when: false
+  register: firewall_enabled
+
 - name: Firewall rule to allow Prometheus to scrape on port 9182 TCP
   win_firewall_rule:
     name: prometheus_exporter
@@ -47,7 +52,8 @@
     protocol: tcp
     remoteip: "{{ windows_exporter_allow_from | default(hostvars[inventory_hostname].ansible_host) }}"
     state: present
-    enabled: yes
+    enabled: true
+  when: firewall_enabled.stdout | length > 0
 
 - name: windows_exporter service settings
   ansible.windows.win_service:
@@ -61,8 +67,7 @@
     return_content: true
   register: metrics_output
   failed_when: "'Metrics' not in metrics_output.content"
-  when: 
-    - windows_exporter_start_mode != 'disabled' 
-    - windows_exporter_start_mode != 'manual' 
+  when:
+    - windows_exporter_start_mode != 'disabled'
+    - windows_exporter_start_mode != 'manual'
     - windows_exporter_state == 'started' or windows_exporter_state == 'restarted'
-     
