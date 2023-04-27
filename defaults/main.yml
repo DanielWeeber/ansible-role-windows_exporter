@@ -17,3 +17,4 @@ windows_exporter_failure_actions:
     delay_ms: 60000
   - type: restart
     delay_ms: 300000
+windows_exporter_failure_command: 
