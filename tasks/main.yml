@@ -60,7 +60,8 @@
     name: windows_exporter
     start_mode: "{{ windows_exporter_start_mode }}"
     state: "{{ windows_exporter_state }}"
-
+    failure_actions: "{{ windows_exporter_failure_actions }}"
+      
 - name: Verify windows_exporter is responding to requests.
   win_uri:
     url: http://localhost:9182/
