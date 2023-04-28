@@ -8,3 +8,13 @@ windows_exporter_bin_path: '"C:\Program Files\windows_exporter\windows_exporter.
 windows_exporter_state: started
 windows_exporter_start_mode: delayed
 windows_exporter_allow_from: 'any'
+windows_exporter_failure_actions:
+  - type: restart
+    delay_ms: 5000
+  - type: restart
+    delay_ms: 10000
+  - type: restart
+    delay_ms: 60000
+  - type: restart
+    delay_ms: 300000
+windows_exporter_failure_command: 
