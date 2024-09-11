@@ -24,13 +24,18 @@ If you change the version, the `windows_exporter` binary will be replaced with t
 
     windows_exporter_bin_path: 'C:\Windows\temp\windows_exporter-{{ windows_exporter_version }}-{{ windows_exporter_arch }}.msi'
 
-
 The path where the `windows_exporter` binary will be downloaded and installed from.
+
+    windows_exporter_listen_address: '0.0.0.0'
+    windows_exporter_listen_port: 9182
+    windows_exporter_textfile_dir: null
+
+Commonly used service options.
 
     windows_exporter_options: ''
 
 Any additional options to pass to `windows_exporter` when it starts, e.g. `--no-collector.wifi` if you want to ignore any WiFi data.
-Need to use MSI Parametes as stated in https://github.com/prometheus-community/windows_exporter#installation
+Need to use MSI Parameters as stated in https://github.com/prometheus-community/windows_exporter#installation
 
     windows_exporter_state: started
     windows_exporter_start_mode: delayed
@@ -45,7 +50,7 @@ None.
 
     - hosts: all
       roles:
-        - role: ansible-role-windows_exporter
+        - role: danielweeber.windows_exporter
 
 ## License
 

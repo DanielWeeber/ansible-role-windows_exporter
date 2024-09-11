@@ -26,11 +26,27 @@
     or not windows_exporter_installed_check.stat.exists
   register: windows_exporter_download_check
 
+- name: create options string
+  tags:
+    test
+  block:
+    - name: list all options
+      set_fact:
+        windows_exporter_options: "{{ windows_exporter_options|default([]) + [item.key + '=' + item.value|string] if item.value is defined }}"
+      with_dict:
+        - LISTEN_ADDR: "{{ windows_exporter_listen_address }}"
+        - LISTEN_PORT: "{{ windows_exporter_listen_port }}"
+        - TEXTFILE_DIR: "{{ windows_exporter_textfile_dir }}"
+
+    - name: concatenate options to parameter string
+      set_fact:
+        windows_exporter_options_string: "{{ ' '.join(windows_exporter_options) }}"
+
 - name: install Windows exporter
   win_package:
     path: '{{ ansible_env.TEMP }}\windows_exporter_install.msi'
     state: present
-    arguments: "{{ windows_exporter_options }}"
+    arguments: "{{ windows_exporter_options_string }}"
   when: >
     windows_exporter_version_check.stderr is not defined
     or windows_exporter_version not in windows_exporter_version_check.stderr
@@ -43,10 +59,10 @@
   changed_when: false
   register: firewall_enabled
 
-- name: Firewall rule to allow Prometheus to scrape on port 9182 TCP
+- name: Firewall rule to allow Prometheus to scrape on port {{ windows_exporter_listen_port }} TCP
   win_firewall_rule:
     name: prometheus_exporter
-    localport: 9182
+    localport: "{{ windows_exporter_listen_port }}"
     action: allow
     direction: in
     protocol: tcp
@@ -63,7 +79,7 @@
 
 - name: Verify windows_exporter is responding to requests.
   win_uri:
-    url: http://localhost:9182/
+    url: http://localhost:{{ windows_exporter_listen_port }}/
     return_content: true
   register: metrics_output
   failed_when: "'Metrics' not in metrics_output.content"
